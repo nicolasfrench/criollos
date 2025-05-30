@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Criollos - Capacitación en Datos</title>
+  <script defer src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <header class="text-center py-8 bg-white shadow">
+    <h1 class="text-3xl font-bold">Capacitaciones Criollos</h1>
+    <p class="text-sm text-gray-500">Formación práctica en herramientas de datos</p>
+  </header>
+
+  <main class="max-w-3xl mx-auto p-4">
+    <section class="bg-white p-6 rounded-lg shadow mb-8">
+      <h2 class="text-2xl font-semibold mb-2">Curso: Fundamentos en Explotación de Datos</h2>
+      <p class="mb-4">Duración: 10 clases de 1 hora. Modalidad: virtual.</p>
+
+      <div id="cupo" class="mb-4 text-sm text-blue-600">Cupo actual: cargando...</div>
+
+      <form action="https://formspree.io/f/tu_form_id" method="POST" class="space-y-4">
+        <input type="text" name="nombre" placeholder="Tu nombre" required class="w-full p-2 border rounded">
+        <input type="email" name="email" placeholder="Tu email" required class="w-full p-2 border rounded">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Preinscribirme</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Simulación: consulta a cupo (en real usarías una API a Google Sheets o Airtable)
+    const cupoMaximo = 30;
+    fetch("https://api.jsonbin.io/v3/b/ID_TU_BIN")
+      .then(res => res.json())
+      .then(data => {
+        const inscriptos = data.record.cupo_actual;
+        document.getElementById("cupo").textContent = `Cupo actual: ${inscriptos} / ${cupoMaximo}`;
+      });
+  </script>
+
+</body>
+</html>
