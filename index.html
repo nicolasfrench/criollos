@@ -1,42 +1,62 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Criollos - Capacitación en Datos</title>
-  <script defer src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 text-gray-900">
+<section class="bg-white p-6 rounded-lg shadow mb-8">
+  <h2 class="text-2xl font-semibold mb-2">Curso: Fundamentos en Explotación de Datos</h2>
+  <p class="mb-4">Duración: 10 clases de 1 hora. Modalidad: virtual.</p>
 
-  <header class="text-center py-8 bg-white shadow">
-    <h1 class="text-3xl font-bold">Capacitaciones Criollos</h1>
-    <p class="text-sm text-gray-500">Formación práctica en herramientas de datos</p>
-  </header>
+  <!-- Botón para mostrar detalle -->
+  <button onclick="toggleModal(true)" class="text-blue-600 underline mb-4">Ver detalle del curso</button>
 
-  <main class="max-w-3xl mx-auto p-4">
-    <section class="bg-white p-6 rounded-lg shadow mb-8">
-      <h2 class="text-2xl font-semibold mb-2">Curso: Fundamentos en Explotación de Datos</h2>
-      <p class="mb-4">Duración: 10 clases de 1 hora. Modalidad: virtual.</p>
+  <!-- Formulario embebido -->
+  <iframe src="https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
 
-      <div id="cupo" class="mb-4 text-sm text-blue-600">Cupo actual: cargando...</div>
+  <!-- Mostrar cupo -->
+  <div id="cupo" class="text-sm text-blue-600 mt-4">Cupo actual: cargando...</div>
+</section>
 
-      <form action="https://formspree.io/f/tu_form_id" method="POST" class="space-y-4">
-        <input type="text" name="nombre" placeholder="Tu nombre" required class="w-full p-2 border rounded">
-        <input type="email" name="email" placeholder="Tu email" required class="w-full p-2 border rounded">
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Preinscribirme</button>
-      </form>
-    </section>
-  </main>
+<!-- Modal oculto -->
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg max-w-xl mx-auto relative">
+    <button onclick="toggleModal(false)" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+    <h3 class="text-xl font-bold mb-4">Detalle del curso</h3>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      Este curso está diseñado para profesionales que quieran dominar los fundamentos de la explotación de datos en entornos empresariales. Aprenderás:
+    </p>
+    <ul class="list-disc pl-5 mt-3 text-sm text-gray-600">
+      <li>Evolución histórica de la explotación de datos</li>
+      <li>Diferencias entre data lake, data warehouse y data mesh</li>
+      <li>Tipos de análisis (descriptivo, diagnóstico, predictivo, prescriptivo)</li>
+      <li>Herramientas prácticas como Excel, SQL, Tableau y Power BI</li>
+    </ul>
+  </div>
+</div>
 
-  <script>
-    // Simulación: consulta a cupo (en real usarías una API a Google Sheets o Airtable)
-    const cupoMaximo = 30;
-    fetch("https://api.jsonbin.io/v3/b/ID_TU_BIN")
-      .then(res => res.json())
-      .then(data => {
-        const inscriptos = data.record.cupo_actual;
-        document.getElementById("cupo").textContent = `Cupo actual: ${inscriptos} / ${cupoMaximo}`;
-      });
-  </script>
+<!-- Script para mostrar/ocultar modal -->
+<script>
+  function toggleModal(show) {
+    const modal = document.getElementById("modal");
+    if (show) {
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    } else {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+  }
 
-</body>
-</html>
+  // Cupo desde Google Sheets CSV
+  const cupoMaximo = 30;
+  const urlCSV = "https://docs.google.com/spreadsheets/d/e/TU_ID_DE_PUB/export?format=csv";
+
+  fetch(urlCSV)
+    .then(response => response.text())
+    .then(data => {
+      const filas = data.trim().split("\n").length - 1;
+      const cupoTexto = document.getElementById("cupo");
+      if (filas >= cupoMaximo) {
+        cupoTexto.textContent = "¡Cupo completo!";
+        document.querySelector("iframe").style.display = "none";
+      } else {
+        cupoTexto.textContent = `Cupo actual: ${filas} / ${cupoMaximo}`;
+      }
+    });
+</script>
+
